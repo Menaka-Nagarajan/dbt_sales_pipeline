@@ -1,0 +1,34 @@
+version: 2
+
+sources:
+  - name: google_sheets
+    description: "Source from Google Sheets via Fivetran"
+    schema: GOOGLE_SHEETS
+    tables:
+      - name: sales_data
+        description: "Sales data loaded from Google Sheets"
+
+models:
+  - name: stg_sales_data
+    description: "Standardizes raw sales data"
+    columns:
+      - name: product
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - not_null
+
+  - name: agg_sales_by_product
+    description: "Aggregates sales by product and category"
+    columns:
+      - name: product
+        tests:
+          - not_null
+          - unique
+      - name: category
+        tests:
+          - not_null
+      - name: total_quantity_sold
+      - name: total_sales
+      - name: total_orders
